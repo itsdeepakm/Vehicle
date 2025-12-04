@@ -25,7 +25,14 @@ export default function Register() {
                     message="name must be atleast 3 character"
                 }
                 break;
-
+            case "phone":
+                if(!value.trim()){
+                    message="phone number is required";
+                }
+                 else if (!/^\d{10}$/.test(value)){
+                    message="phone number must be 10 digits";
+                 }
+               break;
 
         }
         seterror((prev)=>({...prev,[name]:message}));
@@ -42,8 +49,10 @@ export default function Register() {
        <h2>Register page</h2>
        <input type="text"name="name" placeholder="Name"className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.name}</p>}</div>
-       <input type="text"name="phone" placeholder="Phone Number"className="input-field" />
-       <div></div>
+       <input type="text"name="phone" placeholder="Phone Number"className="input-field" onChange={(e)=>handleinputchange(e)} />
+       <div>
+        {error&&<p>{error.phone}</p>}
+       </div>
        <input type="email"name="email" placeholder="Email" className="input-field"/>
        <div></div>
        <input type="password"name="password" placeholder="Password" className="input-field" />
