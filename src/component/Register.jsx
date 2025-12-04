@@ -11,6 +11,7 @@ export default function Register() {
      }
     const [error,seterror]=useState({});
     const [data,setdata]=useState(details);
+    const [password,setpassword]=useState("");
     function validate(name,value){
         let message="";
         switch(name){
@@ -48,6 +49,21 @@ export default function Register() {
                 else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(value)) {
                     message="password must be 8 character 1 number 1 special char 1 uppercase"
                 }
+                break;
+            case "role":
+                if(value.trim()===""||!value){
+                    message="role is required"
+                }
+                break;
+            case "confirmpassword":
+                  if (!value.trim()) {
+                  message = "confirm password is required";
+                } else if (password !== value) {
+                   message = "password did not match";
+                }
+                 break;
+
+                
 
 
         }
@@ -56,6 +72,9 @@ export default function Register() {
     }
   function handleinputchange(e){
     let {name,value}=e.target;
+    if(name==="password"){
+        setpassword(value);
+    }
     setdata((prev)=>({...prev,[name]:value}))
     validate(name,value);
   }
@@ -73,14 +92,14 @@ export default function Register() {
        <div>{error &&<p>{error.email}</p> }</div>
        <input type="password"name="password" placeholder="Password" className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.password}</p>}</div>
-       <input type="password"name="confrimpassword" placeholder="Confirm Password" className="input-field"/>
-       <div></div>
-       <select className="input-field"name="role">
+       <input type="password"name="confirmpassword" placeholder="Confirm Password" className="input-field"onChange={(e)=>handleinputchange(e)}/>
+       <div>{error &&<p>{error.confirmpassword}</p>}</div>
+       <select className="input-field"name="role"onChange={(e)=>{handleinputchange(e)}}>
         <option value="" >Select Role</option>
         <option value="Customer">Customer</option>
         <option value="admin">Admin</option>
        </select>
-       <div></div>
+       <div>{error && <p>{error.role}</p>}</div>
        <button className="btn">Register</button>
     </div>
     </div>
