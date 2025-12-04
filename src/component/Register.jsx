@@ -78,8 +78,46 @@ export default function Register() {
     setdata((prev)=>({...prev,[name]:value}))
     validate(name,value);
   }
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const hasErrors = Object.values(error).some((msg) => msg && msg.length > 0);
+    if (hasErrors) {
+        alert("Please fix all errors before submitting");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:4000/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            if (result.errors) {
+                seterror((prev) => ({
+                    ...prev,
+                    phone: result.errors.phone || "",
+                    email: result.errors.email || "",
+                }));
+            }
+            alert(result.message || "Registration failed");
+            return;
+        }
+
+        alert("User registered successfully!");
+        setdata(details);
+    } catch (err) {
+        alert("Server error: " + err.message);
+    }
+}
+
   return (
     <div>   
+    <form onSubmit={handleSubmit}>
     <div className="registerdiv">
        <h2>Register page</h2>
        <input type="text"name="name" placeholder="Name"className="input-field"onChange={(e)=>handleinputchange(e)} />
@@ -100,8 +138,9 @@ export default function Register() {
         <option value="admin">Admin</option>
        </select>
        <div>{error && <p>{error.role}</p>}</div>
-       <button className="btn">Register</button>
+       <button type="submit" className="btn">Register</button>
     </div>
+    </form>
     </div>
   )
 }
