@@ -115,6 +115,34 @@ export default function Register() {
     }
 }
 
+  const checkExists = async (field, value) => {
+    if (!value.trim()) return;
+
+    if (error[field]) return;
+
+    try {
+      const url =
+        field === "phone"
+          ? `http://localhost:4000/api/check-phone?phone=${value}`
+          : `http://localhost:4000/api/check-email?email=${value}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.exists) {
+        seterror((prev) => ({
+          ...prev,
+          [field]: field === "phone" ? "Phone already exists" : "Email already exists",
+        }));
+      }
+    } catch (err) {
+      console.log("Existence check error:", err);
+      seterror((prev) => ({
+        ...prev,
+        general: "Server error",
+      }));
+    }
+  };
   return (
     <div>   
     <form onSubmit={handleSubmit}>
@@ -122,11 +150,11 @@ export default function Register() {
        <h2>Register page</h2>
        <input type="text"name="name" placeholder="Name"className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.name}</p>}</div>
-       <input type="text"name="phone" placeholder="Phone Number"className="input-field" onChange={(e)=>handleinputchange(e)} />
+       <input type="text"name="phone"onBlur={() => checkExists("phone", data.phone)}  placeholder="Phone Number"className="input-field" onChange={(e)=>handleinputchange(e)} />
        <div>
         {error&&<p>{error.phone}</p>}
        </div>
-       <input type="email"name="email" placeholder="Email" className="input-field"onChange={(e)=>handleinputchange(e)}/>
+       <input type="email"name="email" onBlur={() => checkExists("email", data.email) } placeholder="Email" className="input-field"onChange={(e)=>handleinputchange(e)}/>
        <div>{error &&<p>{error.email}</p> }</div>
        <input type="password"name="password" placeholder="Password" className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.password}</p>}</div>
