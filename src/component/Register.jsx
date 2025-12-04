@@ -33,6 +33,22 @@ export default function Register() {
                     message="phone number must be 10 digits";
                  }
                break;
+            case "email":
+                if(!value.trim()){
+                    message="email is required";
+                }
+                else if (!/^\S+@\S+\.\S+$/.test(value)){
+                    message="enter valid email address";
+                }
+                break;
+            case "password":
+                if(!value.trim()){
+                    message="password is required"
+                }
+                else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(value)) {
+                    message="password must be 8 character 1 number 1 special char 1 uppercase"
+                }
+
 
         }
         seterror((prev)=>({...prev,[name]:message}));
@@ -53,10 +69,10 @@ export default function Register() {
        <div>
         {error&&<p>{error.phone}</p>}
        </div>
-       <input type="email"name="email" placeholder="Email" className="input-field"/>
-       <div></div>
-       <input type="password"name="password" placeholder="Password" className="input-field" />
-       <div></div>
+       <input type="email"name="email" placeholder="Email" className="input-field"onChange={(e)=>handleinputchange(e)}/>
+       <div>{error &&<p>{error.email}</p> }</div>
+       <input type="password"name="password" placeholder="Password" className="input-field"onChange={(e)=>handleinputchange(e)} />
+       <div>{error && <p>{error.password}</p>}</div>
        <input type="password"name="confrimpassword" placeholder="Confirm Password" className="input-field"/>
        <div></div>
        <select className="input-field"name="role">
