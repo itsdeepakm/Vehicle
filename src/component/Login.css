@@ -1,0 +1,107 @@
+
+.login-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.bg-image {
+  background-image: url("https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg");
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.45);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+}
+
+.login-card {
+  width: 380px;
+  padding: 30px;
+  margin: auto;
+  margin-top: 8%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  color: white;
+}
+
+.login-avatar {
+  width: 90px;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  margin-bottom: 25px;
+  opacity: 0.8;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+}
+
+.error {
+  color: #ff7b7b;
+  font-size: 14px;
+  text-align: left;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #0275ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #0059c8;
+}
+
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: yellow;
+  text-decoration: underline;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-card {
+  background: white;
+  padding: 25px 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    margin-top: 20%;
+  }
+}
