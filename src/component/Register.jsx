@@ -1,5 +1,6 @@
 import "./Register.css"
 import { useState } from "react";
+
 export default function Register() {
     const details={
         name:"",
@@ -12,6 +13,7 @@ export default function Register() {
     const [error,seterror]=useState({});
     const [data,setdata]=useState(details);
     const [password,setpassword]=useState("");
+    const [success,setsuccess]=useState(false);
     function validate(name,value){
         let message="";
         switch(name){
@@ -80,7 +82,7 @@ export default function Register() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-
+    
     const hasErrors = Object.values(error).some((msg) => msg && msg.length > 0);
     if (hasErrors) {
         alert("Please fix all errors before submitting");
@@ -108,8 +110,12 @@ export default function Register() {
             return;
         }
 
-        alert("User registered successfully!");
+     
         setdata(details);
+        setsuccess(true);
+        setTimeout(() => {
+      window.location.href = "/login";
+    }, 2000);
     } catch (err) {
         alert("Server error: " + err.message);
     }
@@ -143,8 +149,10 @@ export default function Register() {
       }));
     }
   };
+
   return (
-    <div>   
+    <div> 
+   
     <form onSubmit={handleSubmit}>
     <div className="registerdiv">
        <h2>Register page</h2>
@@ -169,6 +177,15 @@ export default function Register() {
        <button type="submit" className="btn">Register</button>
     </div>
     </form>
+    {success && (
+  <div className="popup-overlay">
+    <div className="popup-card">
+      <h3>Registration Successful</h3>
+      <p>Redirecting to login...</p>
+    </div>
+  </div>
+)}
+
     </div>
   )
 }
