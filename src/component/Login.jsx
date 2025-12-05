@@ -4,14 +4,13 @@ import { useState } from "react";
 export default function Login() {
   const [data, setData] = useState({ identifier: "", password: "" });
   const [error, setError] = useState({});
-  const [success, setSuccess] = useState(false);
-  const [popup,setPopup]=useState({message:"",type:""});
+  const [popup, setPopup] = useState({ message: "", type: "" });
 
-
-  function showPopup(message,type="error"){
-    setPopup({message,type});
-    setTimeout(()=>setPopup({message:"",type:"",}),2000);
+  function showPopup(message, type = "error") {
+    setPopup({ message, type });
+    setTimeout(() => setPopup({ message: "", type: "" }), 2000);
   }
+
   function validate(name, value) {
     let message = "";
 
@@ -38,30 +37,33 @@ export default function Login() {
     e.preventDefault();
 
     const invalid = Object.values(error).some((msg) => msg);
-    if (invalid) return showPopup("fix errors before logging int")
+    if (invalid) return showPopup("Fix errors before logging in");
 
     try {
       const response = await fetch("http://localhost:4000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        credentials: "include"  
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        showPopup(result.message|| "Invalid login");
+        showPopup(result.message || "Invalid login");
         return;
       }
 
-      localStorage.setItem("token", result.token);
-      setSuccess(true);
-     showPopup("Login Successful","success");
+
+
+      showPopup("Login Successful", "success");
+
       setTimeout(() => {
-        window.location.href = "/home";
-      }, 2000);
+        window.location.href = "/addvehicle";
+      }, 1500);
+
     } catch (err) {
-      showPopup("server error"+err.message);
+      showPopup("Server error: " + err.message);
     }
   }
 
@@ -106,23 +108,14 @@ export default function Login() {
         </p>
       </form>
 
-      {success && (
+      {popup.message && (
         <div className="popup-overlay">
-          <div className="popup-card">
-            <h3>Login Successful</h3>
-            <p>Redirecting...</p>
+          <div className={`popup-card ${popup.type}`}>
+            <h3>{popup.type === "error" ? "Error" : "Success"}</h3>
+            <p>{popup.message}</p>
           </div>
         </div>
       )}
-      {popup.message && (
-  <div className="popup-overlay">
-    <div className={`popup-card ${popup.type}`}>
-      <h3>{popup.type === "error" ? "Error" : "Success"}</h3>
-      <p>{popup.message}</p>
-    </div>
-  </div>
-)}
-
     </div>
   );
 }
