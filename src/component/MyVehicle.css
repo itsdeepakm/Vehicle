@@ -1,0 +1,118 @@
+
+.vehicle-page {
+  padding: 40px 50px;
+  background: #f3f4f7;
+  min-height: calc(100vh - 60px);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+.no-data {
+  background: #ffffff;
+  padding: 20px 25px;
+  border-left: 4px solid #007bff;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #555;
+  width: fit-content;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+}
+
+
+.vehicle-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 25px;
+}
+
+
+.vehicle-card {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+  border: 1px solid #e5e5e5;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+.vehicle-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.vehicle-card p {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #444;
+}
+
+
+.vehicle-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+
+.edit-btn {
+  background: #3498db;
+  color: white;
+  width: 80px;
+}
+
+.edit-btn:hover {
+  background: #2176b5;
+}
+
+
+.delete-btn {
+  background: #e63946;
+  color: white;
+    width: 80px;
+}
+
+.delete-btn:hover {
+  background: #c71d27;
+}
+
+
+.loading {
+  text-align: center;
+  padding: 80px 0;
+  font-size: 26px;
+  color: #777;
+}
+
+
+@media (max-width: 768px) {
+  .vehicle-page {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}
