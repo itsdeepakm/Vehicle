@@ -1,0 +1,219 @@
+.reports-root {
+  padding: 30px;
+  background: #f0f2f5;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.reports-header h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #141414;
+  margin-bottom: 25px;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.metric-box {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+  text-align: center;
+  transition: 0.25s ease;
+}
+
+.metric-box:hover {
+  transform: translateY(-6px);
+}
+
+.metric-title {
+  font-size: 15px;
+  opacity: .65;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+}
+
+.metric-sub {
+  margin-top: 6px;
+  opacity: .6;
+  font-size: 13px;
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-top: 35px;
+}
+
+.chart-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+}
+
+.chart-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.pie-chart-container {
+  width: 100%;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pie-legend {
+  margin-top: 20px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.legend-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  margin-right: 12px;
+}
+
+.legend-label {
+  font-size: 15px;
+}
+
+.line-chart-container {
+  width: 100%;
+  height: 380px;
+}
+
+.top-customers {
+  margin-top: 40px;
+}
+
+.top-customers h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.tc-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.tc-table thead tr {
+  background: #ffffff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.tc-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.tc-table tbody tr {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: 0.25s ease;
+}
+
+.tc-table tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.tc-table td {
+  padding: 16px;
+  font-size: 15px;
+  color: #222;
+}
+
+.tc-table td:first-child {
+  font-weight: 600;
+}
+
+.idle-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.idle-card {
+  width: 380px;
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+
+.idle-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.idle-card p {
+  font-size: 15px;
+  opacity: .8;
+}
+
+.idle-timer {
+  font-size: 46px;
+  font-weight: 700;
+  margin: 18px 0;
+  color: #c0392b;
+}
+
+.idle-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-continue,
+.btn-logout {
+  width: 48%;
+  padding: 12px 0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-continue {
+  background: #3498db;
+  color: white;
+}
+
+.btn-logout {
+  background: #e74c3c;
+  color: white;
+}
