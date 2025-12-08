@@ -14,14 +14,50 @@ const COLORS = [
   "#3498DB"
 ];
 
+function CustomTooltip({ active, payload }) {
+  if (active && payload?.length) {
+    const d = payload[0].payload;
+
+    return (
+      <div style={{
+        background: "#fff",
+        padding: "12px 16px",
+        borderRadius: "8px",
+        border: "1px solid #ddd",
+        boxShadow: "0px 3px 8px rgba(0,0,0,0.2)",
+        maxWidth: "260px"
+      }}>
+        <p><strong>{d.name}</strong></p>
+        <p>Count: {d.value}</p>
+        <p>Share: {d.percent}%</p>
+
+        <p style={{ marginTop: "6px", fontWeight: "bold" }}>Vehicles:</p>
+
+        <ul style={{ maxHeight: "120px", overflowY: "auto", paddingLeft: "20px" }}>
+          {d.vehicles.map((v, i) => (
+            <li key={i} style={{ fontSize: "13px" }}>
+              {v.brand} {v.model} ({v.reg})
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  return null;
+}
+
 function ServiceTypePie({ data }) {
   if (!data || data.length === 0) {
     return <p style={{ textAlign: "center", padding: "20px" }}>No service data</p>;
   }
 
-  const formatted = data.map((item, i) => ({
+  const total = data.reduce((sum, d) => sum + d.count, 0);
+
+  const formatted = data.map((item) => ({
     name: item.serviceType,
-    value: item.count
+    value: item.count,
+    percent: ((item.count / total) * 100).toFixed(1),
+    vehicles: item.vehicles || []
   }));
 
   return (
@@ -41,13 +77,14 @@ function ServiceTypePie({ data }) {
             ))}
           </Pie>
 
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="bottom" height={36} />
         </PieChart>
       </ResponsiveContainer>
     </div>
   );
 }
+
 
 
 
