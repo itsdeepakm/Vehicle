@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./Report.css";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import AdminSidebar from "./admin/AdminSideBar";
 
 const COLORS = [
   "#FF6B6B",
@@ -164,7 +165,8 @@ export default function Reports() {
 
   if (loading || !overview) return <div className="reports-loading">Loading reports...</div>;
 
-  return (
+  return (<>
+  <AdminSidebar />
     <div className="reports-root">
       <div className="reports-header">
         <h1>Admin Reports</h1>
@@ -200,10 +202,10 @@ export default function Reports() {
             <ServiceTypePie data={serviceTypes} size={350} />
           </div>
 
-          <div className="pie-legend">
+         <div className="pie-legend">
             {serviceTypes.map((t, i) => (
               <div key={i} className="legend-row">
-                <div className="legend-swatch" style={{ background: `hsl(${(i * 72) % 360} 70% 50%)` }}></div>
+                <div className="legend-swatch" style={{ background: `${COLORS[i%COLORS.length]}` }}></div>
                 <span>{t.serviceType}</span>
                 <span>({t.count})</span>
               </div>
@@ -252,5 +254,5 @@ export default function Reports() {
         </div>
       )}
     </div>
-  );
+ </> );
 }
