@@ -32,9 +32,10 @@ export default function Register() {
                 if(!value.trim()){
                     message="phone number is required";
                 }
-                 else if (!/^\d{10}$/.test(value)){
-                    message="phone number must be 10 digits";
-                 }
+                 else if (!/^[6-9]\d{9}$/.test(value)) {
+                   message = "Invalid phone number";
+                }
+
                break;
             case "email":
                 if(!value.trim()){
@@ -124,7 +125,7 @@ export default function Register() {
   const checkExists = async (field, value) => {
     if (!value.trim()) return;
 
-    if (error[field]) return;
+    
 
     try {
       const url =
@@ -158,15 +159,15 @@ export default function Register() {
        <h2>Register page</h2>
        <input type="text"name="name" placeholder="Name"className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.name}</p>}</div>
-       <input type="text"name="phone"onBlur={() => checkExists("phone", data.phone)}  placeholder="Phone Number"className="input-field" onChange={(e)=>handleinputchange(e)} />
+       <input type="text"name="phone"onBlur={(e) => checkExists("phone", e.target.value)}  placeholder="*Phone Number"className="input-field" onChange={(e)=>handleinputchange(e)} />
        <div>
         {error&&<p>{error.phone}</p>}
        </div>
-       <input type="email"name="email" onBlur={() => checkExists("email", data.email) } placeholder="Email" className="input-field"onChange={(e)=>handleinputchange(e)}/>
+       <input type="email"name="email" onBlur={(e) => checkExists("email", e.target.value) } placeholder="*Email" className="input-field"onChange={(e)=>handleinputchange(e)}/>
        <div>{error &&<p>{error.email}</p> }</div>
-       <input type="password"name="password" placeholder="Password" className="input-field"onChange={(e)=>handleinputchange(e)} />
+       <input type="password"name="password" placeholder="*Password" className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.password}</p>}</div>
-       <input type="password"name="confirmpassword" placeholder="Confirm Password" className="input-field"onChange={(e)=>handleinputchange(e)}/>
+       <input type="password"name="confirmpassword" placeholder="*Confirm Password" className="input-field"onChange={(e)=>handleinputchange(e)}/>
        <div>{error &&<p>{error.confirmpassword}</p>}</div>
        <select className="input-field"name="role"onChange={(e)=>{handleinputchange(e)}}>
         <option value="" >Select Role</option>
