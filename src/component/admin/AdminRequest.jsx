@@ -25,7 +25,7 @@ export default function AdminRequests() {
     fetch("http://localhost:4000/admin/requests?" + q, {
       credentials: "include"
     })
-      .then(async r => {
+      .then(async (r) => {
         const data = await r.json();
 
         if (!r.ok) {
@@ -35,7 +35,7 @@ export default function AdminRequests() {
         }
 
         if (!Array.isArray(data)) {
-          setError("Invalid response format");
+          setError("Invalid response");
           setRequests([]);
           return;
         }
@@ -66,12 +66,16 @@ export default function AdminRequests() {
           <input
             placeholder="Search"
             value={filters.search}
-            onChange={e => setFilters({ ...filters, search: e.target.value })}
+            onChange={(e) =>
+              setFilters({ ...filters, search: e.target.value })
+            }
           />
 
           <select
             value={filters.status}
-            onChange={e => setFilters({ ...filters, status: e.target.value })}
+            onChange={(e) =>
+              setFilters({ ...filters, status: e.target.value })
+            }
           >
             <option value="">Status</option>
             <option value="pending">Pending</option>
@@ -80,8 +84,14 @@ export default function AdminRequests() {
             <option value="completed">Completed</option>
           </select>
 
-          <input type="date" onChange={e => setFilters({ ...filters, from: e.target.value })} />
-          <input type="date" onChange={e => setFilters({ ...filters, to: e.target.value })} />
+          <input
+            type="date"
+            onChange={(e) => setFilters({ ...filters, from: e.target.value })}
+          />
+          <input
+            type="date"
+            onChange={(e) => setFilters({ ...filters, to: e.target.value })}
+          />
 
           <button onClick={load}>Apply</button>
         </div>
@@ -91,7 +101,7 @@ export default function AdminRequests() {
             <tr>
               <th>ID</th>
               <th>Customer</th>
-              <th>Vehicle</th>
+              <th>Vehicle Reg No.</th>
               <th>Service Type</th>
               <th>Date</th>
               <th>Status</th>
@@ -109,15 +119,22 @@ export default function AdminRequests() {
               </tr>
             )}
 
-            {requests.map(r => (
+            {requests.map((r,index) => (
               <tr key={r._id}>
-                <td>#{r._id.slice(-6)}</td>
-                <td>{r.userId?.name}</td>
-                <td>{r.vehicleId?.registrationNumber}</td>
+                <td>#{index+1}</td>
+
+                <td>{r.user?.name || "Unknown User"}</td>
+
+                <td>{r.vehicle?.registrationNumber || "Unknown Vehicle"}</td>
+
                 <td>{r.serviceType}</td>
+
                 <td>{new Date(r.preferredDate).toLocaleDateString()}</td>
+
                 <td className={"s-" + r.status}>{r.status}</td>
+
                 <td>{r.mechanicName || "—"}</td>
+
                 <td>
                   <button onClick={() => setModal(r)}>Update</button>
                 </td>
