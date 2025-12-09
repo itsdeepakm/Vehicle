@@ -1,20 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function UpdateStatusModal({ data, close, onUpdate }) {
   const [status, setStatus] = useState("");
   const [mechanicName, setMechanicName] = useState("");
   const [amount, setAmount] = useState("");
+  const [mechanics, setMechanics] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/admin/mechanics", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(list => setMechanics(list || []));
+  }, []);
 
   async function submit() {
     const body = { status };
 
     if (status === "approved") {
-      if (!mechanicName.trim()) return alert("Mechanic required");
+      if (!mechanicName.trim()) {
+        alert("Select a mechanic");
+        return;
+      }
       body.mechanicName = mechanicName;
     }
 
     if (status === "completed") {
-      if (!amount) return alert("Amount required");
+      if (!amount) {
+        alert("Amount required");
+        return;
+      }
       body.amount = Number(amount);
     }
 
@@ -27,7 +42,10 @@ export default function UpdateStatusModal({ data, close, onUpdate }) {
 
     const result = await res.json();
 
-    if (!res.ok) return alert(result.message);
+    if (!res.ok) {
+      alert(result.message);
+      return;
+    }
 
     onUpdate();
     close();
@@ -38,7 +56,7 @@ export default function UpdateStatusModal({ data, close, onUpdate }) {
       <div className="ad-modal">
         <h3>Update Status</h3>
 
-        <select value={status} onChange={e => setStatus(e.target.value)}>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value="">Select status</option>
 
           {data.status === "pending" && (
@@ -58,11 +76,17 @@ export default function UpdateStatusModal({ data, close, onUpdate }) {
         </select>
 
         {status === "approved" && (
-          <input
-            placeholder="Mechanic Name"
+          <select
             value={mechanicName}
-            onChange={e => setMechanicName(e.target.value)}
-          />
+            onChange={(e) => setMechanicName(e.target.value)}
+          >
+            <option value="">Select Mechanic</option>
+            {mechanics.map((m, i) => (
+              <option key={i} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
         )}
 
         {status === "completed" && (
@@ -70,7 +94,7 @@ export default function UpdateStatusModal({ data, close, onUpdate }) {
             type="number"
             placeholder="Amount"
             value={amount}
-            onChange={e => setAmount(e.target.value)}
+            onChange={(e) => setAmount(e.target.value)}
           />
         )}
 
