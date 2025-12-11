@@ -14,6 +14,12 @@ export default function Register() {
     const [data,setdata]=useState(details);
     const [password,setpassword]=useState("");
     const [success,setsuccess]=useState(false);
+    const [errorpopup,seterrorpopup]=useState(false);
+    const [popup, setPopup] = useState({ message: "", type: "" });
+    function showPopup(message, type = "error") {
+    setPopup({ message, type });
+    setTimeout(() => setPopup({ message: "", type: "" }), 2000);
+  }
     function validate(name,value){
         let message="";
         switch(name){
@@ -75,6 +81,15 @@ export default function Register() {
     }
   function handleinputchange(e){
     let {name,value}=e.target;
+    if (name === "name") {
+    value = value
+      .replace(/^\s+|\s+$/g, "")   
+      .replace(/(?<=\S)\s+(?=\S)/g, "")
+      .replace(/\s+/g, " ");       
+  } else {
+    value = value.replace(/\s+/g, ""); 
+  }
+
     if(name==="password"){
         setpassword(value);
     }
@@ -86,7 +101,7 @@ export default function Register() {
     
     const hasErrors = Object.values(error).some((msg) => msg && msg.length > 0);
     if (hasErrors) {
-        alert("Please fix all errors before submitting");
+        seterrorpopup(true);
         return;
     }
 
@@ -107,7 +122,7 @@ export default function Register() {
                     email: result.errors.email || "",
                 }));
             }
-            alert(result.message || "Registration failed");
+            showPopup(result.message || "Registration failed");
             return;
         }
 
@@ -116,9 +131,10 @@ export default function Register() {
         setsuccess(true);
         setTimeout(() => {
       window.location.href = "/login";
-    }, 2000);
+    }, 8000);
     } catch (err) {
-        alert("Server error: " + err.message);
+        showPopup("Server error. Please try again later.");
+        console.log("Registration error:", err);
     }
 }
 
@@ -157,7 +173,7 @@ export default function Register() {
     <form onSubmit={handleSubmit}>
     <div className="registerdiv">
        <h2>Register page</h2>
-       <input type="text"name="name" placeholder="Name"className="input-field"onChange={(e)=>handleinputchange(e)} />
+       <input type="text"name="name" placeholder="*Name"className="input-field"onChange={(e)=>handleinputchange(e)} />
        <div>{error && <p>{error.name}</p>}</div>
        <input type="text"name="phone"onBlur={(e) => checkExists("phone", e.target.value)}  placeholder="*Phone Number"className="input-field" onChange={(e)=>handleinputchange(e)} />
        <div>
@@ -186,7 +202,28 @@ export default function Register() {
     </div>
   </div>
 )}
+{errorpopup && (
+  <div className="popup-overlay">
+    <div className="popup-card error">    
+      <h3>Error</h3>
+      <p>Please fix all errors before submitting</p>
+      <button onClick={() => seterrorpopup(false)}>Close</button>
 
+
+    </div>
+  </div>)}
+  {popup.message && (
+        <div className="popup-overlay">
+          <div className={`popup-card ${popup.type}`}>
+            <h3>{popup.type === "error" ? "Error" : "Success"}</h3>
+            <p>{popup.message}</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+  
+  
+    
