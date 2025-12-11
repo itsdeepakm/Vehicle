@@ -17,7 +17,7 @@ export default function Login() {
     if (name === "identifier") {
       if (!value.trim()) message = "Email or phone is required";
       else if (!/^\d{10}$/.test(value) && !/^\S+@\S+\.\S+$/.test(value))
-        message = "Enter valid email or 10-digit phone number";
+        message = "Enter valid email or phone";
     }
 
     if (name === "password") {
@@ -34,38 +34,63 @@ export default function Login() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const invalid = Object.values(error).some((msg) => msg);
-    if (invalid) return showPopup("Fix errors before logging in");
-
-    try {
-      const response = await fetch("http://localhost:4000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include"  
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        showPopup(result.message || "Invalid login");
-        return;
-      }
-
-
-
-      showPopup("Login Successful", "success");
-
-      setTimeout(() => {
-        window.location.href = "/addvehicle";
-      }, 1500);
-
-    } catch (err) {
-      showPopup("Server error: " + err.message);
-    }
+  if (!data.identifier.trim() || !data.password.trim()) {
+    showPopup("All fields are required");
+    return;
   }
+
+  if (error.identifier) {
+    showPopup("error in email or phone");
+    return;
+  }
+  if(error.password){
+    showPopup("error in password");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:4000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      showPopup(result.message || "Invalid login");
+      return;
+    }
+
+    const me = await fetch("http://localhost:4000/me", {
+      credentials: "include"
+    });
+
+    const meData = await me.json();
+
+    if (!me.ok || !meData.user) {
+      showPopup("Unable to fetch profile");
+      return;
+    }
+
+    const role = meData.user.role;
+
+    showPopup("Login Successful", "success");
+
+    setTimeout(() => {
+      if (role === "admin") window.location.href = "/admin/requests";
+      else window.location.href = "/addvehicle";
+    }, 1200);
+
+  } catch (err) {
+    showPopup("Server error");
+    console.log(err);
+  }
+}
+
 
   return (
     <div className="login-container">
