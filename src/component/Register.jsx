@@ -79,16 +79,35 @@ export default function Register() {
         seterror((prev)=>({...prev,[name]:message}));
            
     }
+    const  handlename=(s)=>{
+    s = s.trim();
+    let ans="";  
+  for (let i = 0; i < s.length; i++) {
+      if (s[i] === ' ') {
+        continue;
+    } 
+  else if (s[i] >= 'A' && s[i] <= 'Z' && i !== 0 && s[i - 1] === ' ') {
+    ans += " ";
+    ans += s[i];
+  } 
+   else {
+        ans += s[i];
+     }
+   }
+   return ans;
+
+  }
   function handleinputchange(e){
     let {name,value}=e.target;
-    if (name === "name") {
-    value = value
-      .replace(/^\s+|\s+$/g, "")   
-      .replace(/(?<=\S)\s+(?=\S)/g, "")
-      .replace(/\s+/g, " ");       
-  } else {
-    value = value.replace(/\s+/g, ""); 
-  }
+    const ans=handlename(value);
+    if(name==="name"){
+        value=ans;
+    }
+    else{
+      value = value.replace(/ /g, "");
+
+    }
+
 
     if(name==="password"){
         setpassword(value);
