@@ -1,10 +1,12 @@
 import "./Profile.css";
 import {useState,useEffect} from "react";
 import AdminSidebar from "./admin/AdminSideBar";
+import {useNavigate} from "react-router-dom";
+import { Global } from "../component/Global";
 export default function Profile() {
     const [data,setdata]=useState([]);
     const [popup,setpopup]=useState(false);
-    
+    const nav=useNavigate();
     useEffect(()=>{
         const fetchProfile=async()=>{
             
@@ -47,6 +49,7 @@ export default function Profile() {
     }
 
    }
+   
     return (
         <>
         <AdminSidebar/>
@@ -59,7 +62,7 @@ export default function Profile() {
                 <p><strong>Phone:</strong> {user.phone}</p>
                 <p><strong>Email:</strong> {user.email}</p>
                 <p><strong>Role:</strong> {user.role}</p>
-                <button className="edit">Edit</button>
+                <button className="edit" onClick={()=> nav(`edit/${user._id}`)}>Edit</button>
                 <button className="delete" onClick={()=>deleteAccount(user._id)}>Delete</button>
             </div>
         </div>
